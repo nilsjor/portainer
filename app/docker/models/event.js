@@ -46,8 +46,8 @@ function createEventDetails(event) {
         case 'export':
           details = 'Container ' + eventAttr.name + ' exported';
           break;
-        case 'health_status':
-          details = 'Container ' + eventAttr.name + ' executed health status';
+        case 'exec_die':
+          details = 'Container ' + eventAttr.name + ': Exec instance terminated with status code ' + eventAttr.exitCode';
           break;
         case 'oom':
           details = 'Container ' + eventAttr.name + ' goes in out of memory';
@@ -66,9 +66,11 @@ function createEventDetails(event) {
           break;
         default:
           if (event.Action.indexOf('exec_create') === 0) {
-            details = 'Exec instance created';
+            details = 'Container ' + eventAttr.name + ': Exec instance created';
           } else if (event.Action.indexOf('exec_start') === 0) {
-            details = 'Exec instance started';
+            details = 'Container ' + eventAttr.name + ': Exec instance started';
+          } else if (event.Action.indexOf('health_status') === 0) {
+            details = 'Container ' + eventAttr.name + ' updated health status';
           } else {
             details = 'Unsupported event';
           }
